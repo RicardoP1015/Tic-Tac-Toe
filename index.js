@@ -33,8 +33,12 @@ const CreatePlayer = (playerName, playerSign) => {
         return _sign;
     };
 
-    return { player, getSign }
+    return { player, getSign };
 };
+
+const uiController = (() => {
+    const gameBoard = document.querySelectorAll('.block');
+})();
 
 const gameController = (() => {
     const player1 = CreatePlayer('Player1', 'X');
@@ -68,7 +72,7 @@ const gameController = (() => {
             [2, 5, 8],
             [0, 4, 8],
             [2, 4, 6]
-        ]
+        ];
 
         return winningArrays
         .filter((combination) => combination.includes(field))
@@ -77,19 +81,19 @@ const gameController = (() => {
             (index) => gameBoard.getBoard(index) === nextPlayer()
         )
     );
-    }
+    };
 
-return { playGame }
-}) ();
+    const isGameOver = () => {
+        return gameOver;
+    };
 
-gameController.playGame(0)
-gameController.playGame(3)
-gameController.playGame(1)
+    const resetGame = () => {
+        round = 1;
+        gameOver = false;
+    };
 
-gameController.playGame(3)
-gameController.playGame(2)
-
-
+return { playGame, resetGame, isGameOver }
+})();
 
 
 

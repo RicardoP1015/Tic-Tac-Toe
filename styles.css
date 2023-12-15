@@ -1,0 +1,49 @@
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.game-board {
+    display: flex;
+    flex-wrap: wrap;
+    width: 660px;
+}
+
+.side-bar {
+    margin-right: 10px;
+}
+
+.reset-board {
+    font-size: 18px;
+    background-color: transparent;
+    border: 2px solid;
+    width: 117px;
+    height: 40px;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.block {
+    border: 2px solid black;
+    height: 220px;
+    width: 220px;
+    cursor: pointer;
+    font-size: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
