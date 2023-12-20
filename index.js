@@ -4,26 +4,25 @@ const gameBoard = (() => {
     const setBoard = (index, player) => {
         if (index > _boardArray.length) return;
         _boardArray[index] = player;
-    }
+    };
 
     const getBoard = (index) => {
         if (index > _boardArray.length) return;
         return _boardArray[index];
-    }
+    };
 
     const resetBoard = () => {
         for (let i = 0; i < _boardArray.length; i++) {
             _boardArray[i] = '';
-        }
-    }
+        };
+    };
 
-    return { setBoard, getBoard, resetBoard, }
+    return { setBoard, getBoard, resetBoard };
 
 })()
 
 
-const CreatePlayer = (playerName, playerSign) => {
-    let player = playerName;
+const CreatePlayer = (playerSign) => {
     let _sign = playerSign;
 
     const getSign = () => {
@@ -37,32 +36,48 @@ const CreatePlayer = (playerName, playerSign) => {
 const uiControls = (() => {
     const gameField = document.querySelectorAll('.block');
     const resetGame = document.querySelector('.reset-board');
+    const messageBoard = document.querySelector('.player-message');
 
     gameField.forEach((board) => {
         board.addEventListener('click', (e) => {
             if (gameController.isGameOver() || e.target.textContent !== "") return;
             gameController.playGame(parseInt(e.target.dataset.key));
-            updateGameBoard()
-        })
-    })
+            updateGameBoard();
+        });
+    });
 
-    resetGame.addEventListener('click', (e) =>{
+    resetGame.addEventListener('click', (e) => {
         gameBoard.resetBoard();
         gameController.resetGame();
         updateGameBoard();
+        setText('Player X Turn');
     });
 
     const updateGameBoard = () => {
         for (let i = 0; i < gameField.length; i++) {
             gameField[i].textContent = gameBoard.getBoard(i);
-        }
+        };
     };
+
+    const winningPlayer = (winner) => {
+        if (winner === "Draw") {
+            setText("It's a draw!");
+        } else {
+            setText(`Player ${winner} Won!!!`);
+        };
+    };
+
+    const setText = (message) => {
+        messageBoard.textContent = message;
+    };
+
+    return { winningPlayer, setText };
 })();
 
 
 const gameController = (() => {
-    const player1 = CreatePlayer('Player1', 'X');
-    const player2 = CreatePlayer('Player2', 'O');
+    const player1 = CreatePlayer('X');
+    const player2 = CreatePlayer('O');
 
     let round = 1;
     let gameOver = false;
@@ -70,12 +85,17 @@ const gameController = (() => {
     const playGame = (field) => {
         gameBoard.setBoard(field, nextPlayer());
         if (winCondition(field)) {
-            console.log(`${nextPlayer()} Wins`);
+            uiControls.winningPlayer(nextPlayer());
             gameOver = true;
             return;
         };
+        if (round === 9) {
+            uiControls.setText("Draw");
+            isOver = true;
+            return;
+        };
         round++;
-
+        uiControls.setText(`Player ${nextPlayer()} Turn`);
     };
 
     const nextPlayer = () => {
@@ -112,7 +132,7 @@ const gameController = (() => {
         gameOver = false;
     };
 
-    return { playGame, resetGame, isGameOver }
+    return { playGame, resetGame, isGameOver };
 })();
 
 
