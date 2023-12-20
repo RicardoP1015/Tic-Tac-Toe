@@ -61,7 +61,7 @@ const uiControls = (() => {
 
     const winningPlayer = (winner) => {
         if (winner === "Draw") {
-            setText("It's a draw!");
+            setText("It's a Draw!");
         } else {
             setText(`Player ${winner} Won!!!`);
         };
@@ -90,8 +90,8 @@ const gameController = (() => {
             return;
         };
         if (round === 9) {
-            uiControls.setText("Draw");
-            isOver = true;
+            uiControls.winningPlayer("Draw");
+            gameOver = true;
             return;
         };
         round++;
