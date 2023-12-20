@@ -30,12 +30,13 @@ const CreatePlayer = (playerName, playerSign) => {
         return _sign;
     };
 
-    return { player, getSign };
+    return { getSign };
 };
 
 
 const uiControls = (() => {
     const gameField = document.querySelectorAll('.block');
+    const resetGame = document.querySelector('.reset-board');
 
     gameField.forEach((board) => {
         board.addEventListener('click', (e) => {
@@ -44,6 +45,12 @@ const uiControls = (() => {
             updateGameBoard()
         })
     })
+
+    resetGame.addEventListener('click', (e) =>{
+        gameBoard.resetBoard();
+        gameController.resetGame();
+        updateGameBoard();
+    });
 
     const updateGameBoard = () => {
         for (let i = 0; i < gameField.length; i++) {
