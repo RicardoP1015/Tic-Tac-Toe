@@ -2,11 +2,12 @@ const gameBoard = (() => {
     const _boardArray = ['', '', '', '', '', '', '', '', ''];
 
     const setBoard = (index, player) => {
+        if (index > _boardArray.length) return;
         _boardArray[index] = player;
-        render();
     }
 
     const getBoard = (index) => {
+        if (index > _boardArray.length) return;
         return _boardArray[index];
     }
 
@@ -14,10 +15,6 @@ const gameBoard = (() => {
         for (let i = 0; i < _boardArray.length; i++) {
             _boardArray[i] = '';
         }
-    }
-
-    const render = () => {
-        console.log(_boardArray);
     }
 
     return { setBoard, getBoard, resetBoard, }
@@ -36,9 +33,25 @@ const CreatePlayer = (playerName, playerSign) => {
     return { player, getSign };
 };
 
-const uiController = (() => {
-    const gameBoard = document.querySelectorAll('.block');
+
+const uiControls = (() => {
+    const gameField = document.querySelectorAll('.block');
+
+    gameField.forEach((board) => {
+        board.addEventListener('click', (e) => {
+            if (gameController.isGameOver() || e.target.textContent !== "") return;
+            gameController.playGame(parseInt(e.target.dataset.key));
+            updateGameBoard()
+        })
+    })
+
+    const updateGameBoard = () => {
+        for (let i = 0; i < gameField.length; i++) {
+            gameField[i].textContent = gameBoard.getBoard(i);
+        }
+    };
 })();
+
 
 const gameController = (() => {
     const player1 = CreatePlayer('Player1', 'X');
@@ -75,12 +88,12 @@ const gameController = (() => {
         ];
 
         return winningArrays
-        .filter((combination) => combination.includes(field))
-        .some((possibleCombination) =>
-        possibleCombination.every(
-            (index) => gameBoard.getBoard(index) === nextPlayer()
-        )
-    );
+            .filter((combination) => combination.includes(field))
+            .some((possibleCombination) =>
+                possibleCombination.every(
+                    (index) => gameBoard.getBoard(index) === nextPlayer()
+                )
+            );
     };
 
     const isGameOver = () => {
@@ -92,7 +105,7 @@ const gameController = (() => {
         gameOver = false;
     };
 
-return { playGame, resetGame, isGameOver }
+    return { playGame, resetGame, isGameOver }
 })();
 
 
