@@ -63,7 +63,7 @@ const uiControls = (() => {
         if (winner === "Draw") {
             setText("It's a Draw!");
         } else {
-            setText(`Player ${winner} Won!!!`);
+            setText(`Player ${winner} Wins!!!`);
         };
     };
 
